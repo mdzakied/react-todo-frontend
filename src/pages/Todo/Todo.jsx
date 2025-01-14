@@ -1,15 +1,15 @@
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
 
-import { Button } from "primereact/button";
-
-import { useMemo } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import TodoService from "@services/TodoService";
 
+import TodoService from "@services/TodoService";
+import Notification from "@shared/components/Notification/Notification";
+
+import { Button } from "primereact/button";
 import { Checkbox } from "primereact/checkbox";
 import { Card } from "primereact/card";
-
-import Notification from "@shared/components/Notification/Notification";
+import { confirmDialog } from "primereact/confirmdialog";
 
 export default function Todo() {
   // use service and utils with useMemo -> prevent re-render
@@ -40,6 +40,35 @@ export default function Todo() {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
     },
   });
+
+  // delete todo -> react query
+  const { mutate: removeTodoItemById } = useMutation({
+    mutationFn: async (id) => {
+      return await todoService.removeTodoItemById(id);
+    },
+    onSuccess: () => {
+      // notification
+      notification.showSuccess("Todo deleted");
+
+      // update cache todo
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
+  });
+
+  // delete action
+  const acceptDelete = (payload) => {
+    removeTodoItemById(payload);
+  };
+
+  const confirmDelete = (payload) => {
+    confirmDialog({
+      message: "Are you sure you want to delete ?",
+      header: "Confirmation",
+      icon: "pi pi-exclamation-triangle",
+      defaultFocus: "accept",
+      accept: () => acceptDelete(payload),
+    });
+  };
 
   return (
     <>
@@ -128,6 +157,12 @@ export default function Todo() {
                                 severity="danger"
                                 size="small"
                                 className="w-2rem h-2rem"
+                                onClick={() => {
+                                  confirmDelete({
+                                    todo_id: todo.id,
+                                    id: item.id,
+                                  });
+                                }}
                               ></Button>
                             </div>
                           </div>
