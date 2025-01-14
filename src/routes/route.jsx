@@ -45,7 +45,6 @@ const Router = createBrowserRouter([
       },
       {
         path: "todo",
-        element: <Todo />,
         children: [
           {
             index: true,
