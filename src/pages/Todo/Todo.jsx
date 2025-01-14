@@ -25,7 +25,7 @@ export default function Todo() {
   // use state for data
   const [visible, setVisible] = useState(false);
   const [form, setForm] = useState("");
-  const [currentTodo] = useState({});
+  const [currentTodo, setCurrentTodo] = useState({});
 
   // use form hook with schema from zod resolver
   const {
@@ -61,6 +61,11 @@ export default function Todo() {
       if (form === "Add Todo") {
         // add todo
         return await todoService.addTodo(payload);
+      } else if (form === "Add Todo Item") {
+        // add todo item
+        console.log(payload);
+
+        return await todoService.addTodoItemById(payload, currentTodo.id);
       }
     },
 
@@ -68,6 +73,8 @@ export default function Todo() {
       // notification
       if (form === "Add Todo") {
         notification.showSuccess("Todo saved");
+      } else if (form === "Add Todo Item") {
+        notification.showSuccess("Todo item saved");
       }
 
       // close dialog
@@ -249,6 +256,7 @@ export default function Todo() {
                                   setForm("Edit Todo Item");
                                   setVisible(true);
                                 }}
+                                disabled
                               ></Button>
 
                               {/* Action Delete */}
@@ -290,8 +298,10 @@ export default function Todo() {
                         icon="pi pi-plus-circle"
                         onClick={() => {
                           setForm("Add Todo Item");
+                          setCurrentTodo(todo);
                           setVisible(true);
                         }}
+                        disabled
                       />
                     </div>
                   </Card>
@@ -324,9 +334,7 @@ export default function Todo() {
               <InputText
                 {...register("name")}
                 id="name"
-                placeholder={
-                  form === "Edit Todo Item" ? currentTodo.name : "Name"
-                }
+                placeholder="Name"
                 variant="filled"
                 className="p-inputtext-sm w-full lg:w-10"
                 aria-describedby="name-help"
@@ -337,6 +345,30 @@ export default function Todo() {
             {errors.name && (
               <small id="name-help" className="text-xs p-error">
                 {errors.name.message}
+              </small>
+            )}
+
+            {/* Item Name */}
+            <div className="p-inputgroup flex-1">
+              <span className="p-inputgroup-addon">
+                <i className="pi pi-tags"></i>
+              </span>
+              <InputText
+                {...register("itemName")}
+                id="name"
+                placeholder={
+                  form === "Edit Todo Item" ? currentTodo.name : "Name"
+                }
+                variant="filled"
+                className="p-inputtext-sm w-full lg:w-10"
+                aria-describedby="name-help"
+              />
+            </div>
+
+            {/* Error item name */}
+            {errors.itemName && (
+              <small id="itemName-help" className="text-xs p-error">
+                {errors.itemName.message}
               </small>
             )}
 

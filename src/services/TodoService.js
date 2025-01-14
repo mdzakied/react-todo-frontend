@@ -19,9 +19,9 @@ const TodoService = () => {
   // -- Checklist API -- //
 
   // -- Checklist Item API -- //
-  const addTodoItemById = async (payload) => {
+  const addTodoItemById = async (payload, todo_id) => {
     const { data } = await axiosInstance.post(
-      `/checklist/${payload.id}/item`,
+      `/checklist/${todo_id}/item`,
       payload
     );
     return data;
@@ -31,9 +31,9 @@ const TodoService = () => {
     return data;
   };
 
-  const renameTodoItemById = async (payload) => {
+  const renameTodoItemById = async (payload, todo_id) => {
     const { data } = await axiosInstance.put(
-      `/checklist/${payload.todo_id}/item/rename/${payload.id}`,
+      `/checklist/${todo_id}/item/rename/${payload.id}`,
       payload
     );
     return data;

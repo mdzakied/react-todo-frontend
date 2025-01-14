@@ -71,9 +71,7 @@ export default function Login() {
       // data user disabled or incorrect username or password
       if (error) {
         // notification
-        notification.showError(
-          error.response.data.errorMessage
-        );
+        notification.showError(error.response.data.errorMessage);
       }
     },
   });
@@ -89,18 +87,11 @@ export default function Login() {
   // use effect -> check token always when service or route change
   useEffect(() => {
     if (localStorage.getItem("user")) {
-      const checkToken = async () => {
-        const isValidToken = await authService.validateToken();
+      // notification
+      notification.showSuccess("You are already logged in !");
 
-        if (isValidToken) {
-          // notification
-          notification.showSuccess("You are already logged in !");
-
-          // redirect
-          navigate("/dashboard");
-        }
-      };
-      checkToken();
+      // redirect
+      navigate("/dashboard");
     }
   }, [authService, navigate, notification]);
 
