@@ -17,7 +17,7 @@ User Authentication 🔑:
 
 Login Page 🛂:
 - Secure user login with form validation (e.g., email format, password length).
-- - Provides real-time feedback for input errors.
+- Provides real-time feedback for input errors.
 - Displays error messages if login credentials are incorrect or bad request.
 
 Register Page 📝:
