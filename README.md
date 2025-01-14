@@ -39,11 +39,11 @@ Error Handling ⚠️:
 
 ## ⚙️ Technologies Used
 
-- **Frontend 💻:** React.js for building the user interface.
-- **Styling 🎨:** Tailwind CSS for responsive design.
-- **UI Components 🖌️:** Prime React for enhanced UI components.
+- **Frontend 💻**: React.js for building the user interface.
+- **Styling 🎨:** PrimeFlex for CSS Utility.
+- **UI Components 🖌️:** PrimeReact for enhanced UI components.
 - **Data Fetching 📡** : Axios for HTTP requests and TanStack Query for efficient server state management.
-- **Backend 🖥️:** Communicates with a backend API for data management and user authentication.
+- **Backend 🖥️:** Interacts with a backend via RESTful API for data bean, comment and article.
 
 ---
 
@@ -53,4 +53,29 @@ Here're project's layout :
 
 [todoApps-layout](https://www.figma.com/design/tSlIMeRfe5xNTEGHRcefPJ/todo?m=auto&t=Y4JLx7ViAHU7DMAE-6)
 
+---
+
+<h2>🛠️ Installation Steps :</h2>
+
+<p>1. Clone Repository</p>
+
+```
+git clone https://github.com/mdzakied/react-todo-frontend.git
+```
+
+<br />
+<p>2. Run Project for Development</p>
+
+* npm install
+  
+  ```
+  npm install
+  ```
+  
+* Run Project
+  
+  ```
+  npm run dev
+  ```
+  
 ---
