@@ -5,7 +5,7 @@
 ### 🚀 Progress :
 
 - Feature Auth (Login and Register) - ✔️ complete (login and register page)
-- Feature TODO (CRUD) - 🚀 on progress (create and update item todo)  -  ✔️ complete (create, read, delete todo) (read item todo) 
+- Feature TODO (CRUD) - 🚀 on progress (create and update name item todo)  -  ✔️ complete (create, read, delete todo) (read and update status item todo) 
 
 ## 📋 Doc Backend
 https://drive.google.com/file/d/1PpZyrHYjhg3a6nRpu7M68Ck-xdLc8SMJ/view?ts=6785df1b
