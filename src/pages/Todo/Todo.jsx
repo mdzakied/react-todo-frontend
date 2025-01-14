@@ -3,21 +3,41 @@ import { Link } from "react-router-dom";
 import { Button } from "primereact/button";
 
 import { useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import TodoService from "@services/TodoService";
 
 import { Checkbox } from "primereact/checkbox";
 import { Card } from "primereact/card";
 
+import Notification from "@shared/components/Notification/Notification";
+
 export default function Todo() {
   // use service and utils with useMemo -> prevent re-render
   const todoService = useMemo(() => TodoService(), []);
+  const notification = useMemo(() => Notification(), []);
+
+  // access the client
+  const queryClient = useQueryClient();
 
   // get all todo -> react query
   const { data, isLoading } = useQuery({
     queryKey: ["todos"],
     queryFn: async () => {
       return await todoService.getAllTodo();
+    },
+  });
+
+  // update todo status -> react query
+  const { mutate: updateStatusTodoItemById } = useMutation({
+    mutationFn: async (payload) => {
+      return await todoService.updateStatusTodoItemById(payload);
+    },
+    onSuccess: () => {
+      // notification
+      notification.showSuccess("Status updated");
+
+      // update cache todo
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
     },
   });
 
@@ -69,12 +89,21 @@ export default function Todo() {
                   <Card title={todo.name} className="w-20rem h-auto m-4">
                     <ul className="px-3 my-2">
                       {todo.items?.map((item) => (
-                        <li key={item.id} className="card border-round shadow-3 mb-4 p-3">
+                        <li
+                          key={item.id}
+                          className="card border-round shadow-3 mb-4 p-3"
+                        >
                           <div className="flex flex-row gap-2">
                             {/* Status */}
                             <div className="card flex align-items-center justify-content-center">
                               <Checkbox
                                 checked={item.itemCompletionStatus}
+                                onChange={() => {
+                                  updateStatusTodoItemById({
+                                    todo_id: todo.id,
+                                    id: item.id,
+                                  });
+                                }}
                               ></Checkbox>
                             </div>
 
