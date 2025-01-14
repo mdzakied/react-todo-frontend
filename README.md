@@ -51,7 +51,7 @@ Error Handling ⚠️:
 
 Here're project's layout :
 
-[todoApps-layout](https://www.figma.com/design/tSlIMeRfe5xNTEGHRcefPJ/todo?m=auto&t=Y4JLx7ViAHU7DMAE-6)
+[todo-apps-layout](https://www.figma.com/design/tSlIMeRfe5xNTEGHRcefPJ/todo?m=auto&t=Y4JLx7ViAHU7DMAE-6)
 
 ---
 
