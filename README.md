@@ -1,4 +1,4 @@
-<h1 align="center" id="title">react-todo-fronted</h1>
+<h1 align="center" id="title">react-todo-frontend</h1>
 
 <p align="center" id="description">Web app for managing data of todo (Technical Test BTS.id)</p>
 
