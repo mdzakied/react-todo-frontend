@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 import path from "path";
 
 // https://vite.dev/config/
@@ -16,4 +16,14 @@ export default defineConfig({
       "@services": path.resolve(__dirname, "./src/services"),
     },
   },
-})
+  server: {
+    proxy: {
+      "/api": {
+        //target: "http://10.10.102.38:8080",
+        target: "http://94.74.86.174:8080",
+        changeOrigin: true,
+        rewrite: (path) => path.replace("^/api/", ""),
+      },
+    },
+  },
+});

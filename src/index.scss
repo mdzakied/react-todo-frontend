@@ -1,0 +1,22 @@
+// --- Color --- //
+$primary: #4b8c28 !important;
+$light: #a1c7c5 !important;
+$success: #21aa05 !important;
+$danger: #f4024f !important;
+
+// Button Confirm Dialog
+.p-confirm-dialog-reject {
+  padding: 8px 20px;
+  font-size: small;
+  color: $success;
+  background-color: white;
+  border-color: #21aa05;
+  box-shadow: 0 0 0 0.02rem #21aa05 !important;
+}
+
+.p-confirm-dialog-accept {
+  padding: 8px 20px;
+  font-size: small;
+  background-color: $success;
+  box-shadow: 0 0 0 0.02rem #21aa05 !important;
+}
