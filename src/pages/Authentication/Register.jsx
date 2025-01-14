@@ -16,8 +16,6 @@ import Notification from "@shared/components/Notification/Notification";
 import Logo from "@/assets/images/todo-logo.png";
 import HeroRegister from "@/assets/images/register.png";
 
-import toast from "react-hot-toast";
-
 // create schema for validator with zod
 const schema = z.object({
   email: z.string().email("Invalid email address"),
@@ -68,22 +66,7 @@ export default function Register() {
       // data user disabled or incorrect username or password
       if (error) {
         // notification
-        toast.error(`${error.response.data.errorMessage}`, {
-          duration: 3000,
-          style: {
-            border: "1px solid #f4024f",
-            padding: "10px",
-            color: "#f4024f",
-          },
-          iconTheme: {
-            primary: "#f4024f",
-            secondary: "#FFFAEE",
-          },
-        });
-
-        // notification.showError({
-        //   message: error.response.data.errorMessage,
-        // });
+        notification.showError(error.response.data.errorMessage);
       }
     },
   });

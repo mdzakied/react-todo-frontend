@@ -1,14 +1,7 @@
-import {  Outlet } from "react-router-dom";
-
-//import HeroRegister from "@/assets/images/register-customer.png";
-//import HeroTransaction from "@assets/images/transaction.png";
-
 export default function Dashboard() {
   return (
     <>
       <section id="dashboardPage">
-        {/* Outlet */}
-        <Outlet />
 
         {/* Header */}
         <div className="flex flex-row justify-content-between align-items-center">

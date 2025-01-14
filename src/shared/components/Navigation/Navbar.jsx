@@ -3,27 +3,20 @@ import { useNavigate } from "react-router-dom";
 
 import { Avatar } from "primereact/avatar";
 import { TieredMenu } from "primereact/tieredmenu";
-import { Button } from "primereact/button";
 import { confirmDialog } from "primereact/confirmdialog";
 
 import PropTypes from 'prop-types';
 
 import Notification from "@shared/components/Notification/Notification";
 import ImgProfile from "@assets/images/profile.png";
+import Logo from "@assets/images/todo-logo.png";
 
-export default function Navbar({ handleOpenSbar }) {
+export default function Navbar() {
   // use ref for profile
   const profile = useRef(null);
 
-  // current user
-//   const currentUser = JSON.parse(localStorage.getItem("user"));
-
   // items for profile
   const items = [
-    // {
-    //   label: currentUser?.username,
-    //   icon: "pi pi-user",
-    // },
     {
       label: "Logout",
       icon: "pi pi-sign-out",
@@ -66,21 +59,16 @@ export default function Navbar({ handleOpenSbar }) {
     <>
       <div
         id="navbar"
-        className="flex flex-row justify-content-between lg:justify-content-end py-2"
+        className="flex flex-row justify-content-between  py-2"
       >
-        {/* Toggle Sidebar  */}
-        <div className="flex lg:hidden">
-          <Button
-            onClick={() => handleOpenSbar()}
-            icon="pi pi-bars"
-            className="txt-success bg-white border-0 py-2 ml-3"
-            severity="secondary"
-            size="large"
-          />
+        {/* Logo */}
+        <div className="flex justify-content-start align-items-center">
+          <img src={Logo} alt="Logo" className="w-6rem md:w-8rem h-5rem" />
         </div>
+
         
         {/* Profile */}
-        <div className="flex justify-content-end">
+        <div className="flex justify-content-end align-items-center">
           <Avatar
             image={ImgProfile}
             className="mr-3 shadow-3"

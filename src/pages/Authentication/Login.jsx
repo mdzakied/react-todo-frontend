@@ -17,7 +17,7 @@ import Logo from "@/assets/images/todo-logo.png";
 import HeroLogin from "@/assets/images/login-img.png";
 import { useEffect } from "react";
 
-import toast from "react-hot-toast";
+// import toast from "react-hot-toast";
 
 // create schema for validator with zod
 const schema = z.object({
@@ -64,29 +64,16 @@ export default function Login() {
         // notification
         notification.showSuccess("Login success, welcome back !");
 
-        navigate("/dashboard");
+        navigate("/dashboard/todo");
       }
     },
     onError: (error) => {
       // data user disabled or incorrect username or password
       if (error) {
         // notification
-        toast.error(`${error.response.data.errorMessage}`, {
-          duration: 3000,
-          style: {
-            border: "1px solid #f4024f",
-            padding: "10px",
-            color: "#f4024f",
-          },
-          iconTheme: {
-            primary: "#f4024f",
-            secondary: "#FFFAEE",
-          },
-        });
-
-        // notification.showError(
-        //   "Your account is disabled, please contact super admin !"
-        // );
+        notification.showError(
+          error.response.data.errorMessage
+        );
       }
     },
   });
