@@ -27,7 +27,21 @@ export default function Todo() {
     },
   });
 
-  // update todo status -> react query
+  // delete todo -> react query
+  const { mutate: removeTodoById } = useMutation({
+    mutationFn: async (id) => {
+      return await todoService.removeTodoById(id);
+    },
+    onSuccess: () => {
+      // notification
+      notification.showSuccess("Todo deleted");
+
+      // update cache todo
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
+  });
+
+  // update todo item status -> react query
   const { mutate: updateStatusTodoItemById } = useMutation({
     mutationFn: async (payload) => {
       return await todoService.updateStatusTodoItemById(payload);
@@ -41,32 +55,49 @@ export default function Todo() {
     },
   });
 
-  // delete todo -> react query
+  // delete todo item -> react query
   const { mutate: removeTodoItemById } = useMutation({
     mutationFn: async (id) => {
       return await todoService.removeTodoItemById(id);
     },
     onSuccess: () => {
       // notification
-      notification.showSuccess("Todo deleted");
+      notification.showSuccess("Todo item deleted");
 
       // update cache todo
       queryClient.invalidateQueries({ queryKey: ["todos"] });
     },
   });
 
-  // delete action
+  // delete action  todo
   const acceptDelete = (payload) => {
-    removeTodoItemById(payload);
+    removeTodoById(payload);
   };
 
   const confirmDelete = (payload) => {
+    console.log(payload);
+    
     confirmDialog({
       message: "Are you sure you want to delete ?",
       header: "Confirmation",
       icon: "pi pi-exclamation-triangle",
       defaultFocus: "accept",
       accept: () => acceptDelete(payload),
+    });
+  };
+
+  // delete action item todo
+  const acceptDeleteItem = (payload) => {
+    removeTodoItemById(payload);
+  };
+
+  const confirmDeleteItem = (payload) => {
+    confirmDialog({
+      message: "Are you sure you want to delete ?",
+      header: "Confirmation",
+      icon: "pi pi-exclamation-triangle",
+      defaultFocus: "accept",
+      accept: () => acceptDeleteItem(payload),
     });
   };
 
@@ -158,7 +189,7 @@ export default function Todo() {
                                 size="small"
                                 className="w-2rem h-2rem"
                                 onClick={() => {
-                                  confirmDelete({
+                                  confirmDeleteItem({
                                     todo_id: todo.id,
                                     id: item.id,
                                   });
@@ -170,10 +201,21 @@ export default function Todo() {
                       ))}
                     </ul>
 
-                    <div className="flex">
+                    {/* Button Action */}
+                    <div className="flex gap-2">
+                      <Button
+                        label={"Delete"}
+                        className="bgn-danger mt-2 shadow-3 ml-auto"
+                        severity="danger"
+                        size="small"
+                        icon="pi pi-trash"
+                        onClick={() => {
+                          confirmDelete(todo.id);
+                        }}
+                      />
                       <Button
                         label={"Add"}
-                        className="bgn-success mt-2 shadow-3 ml-auto"
+                        className="bgn-success mt-2 shadow-3"
                         severity="success"
                         size="small"
                         icon="pi pi-plus-circle"
