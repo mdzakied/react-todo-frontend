@@ -134,7 +134,7 @@ export default function Login() {
               <div className="ml-1">
                 <h2 className="font-semibold my-0">Log in to your account.</h2>
                 <p className="text-sm text-gray-400">
-                  Enter your username address and password to log in.
+                  Enter your username and password to log in.
                 </p>
               </div>
 

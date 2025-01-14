@@ -98,8 +98,8 @@ export default function Register() {
 
   return (
     <>
-      {/* Login Page */}
-      <section id="loginPage">
+      {/* Register Page */}
+      <section id="registerPage">
         <div className="flex flex-row justify-content-center align-items-center flex-wrap h-screen">
           <div className="grid w-full align-items-center ">
             {/* Login Form */}
@@ -111,9 +111,9 @@ export default function Register() {
 
               {/* Title */}
               <div className="ml-1">
-                <h2 className="font-semibold my-0">Log in to your account.</h2>
+                <h2 className="font-semibold my-0">Register Account.</h2>
                 <p className="text-sm text-gray-400">
-                  Enter your username address and password to log in.
+                  Enter your email, username and password to register.
                 </p>
               </div>
 
@@ -217,9 +217,8 @@ export default function Register() {
                 <Button
                   label={isPending ? "Loading..." : "Sign in"}
                   className="bg-gray-600 w-full mt-2 py-2 border-none hover:bg-gray-500"
-                  severity="success"
                   size="small"
-                  disabled={!isValid || isPending}
+                  onClick={() => navigate("/login")}
                 />
               </div>
             </div>
