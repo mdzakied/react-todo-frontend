@@ -139,14 +139,14 @@ export default function Todo() {
         {/* Todo List */}
         <div className="mt-6">
           {/* Data */}
-          <div className="justify-content-center grid">
+          <div className="mx-auto masonry-grid">
             {isLoading ? (
               <p>Loading...</p>
             ) : (
               data.data.map((todo) => (
                 <div key={todo.id} className="h-auto">
                   {/* Card */}
-                  <Card title={todo.name} className="w-20rem h-auto m-4">
+                  <Card title={todo.name} className="w-20rem inline-block h-auto m-4">
                     <ul className="px-3 my-2">
                       {todo.items?.map((item) => (
                         <li

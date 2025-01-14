@@ -4,6 +4,13 @@ $light: #a1c7c5 !important;
 $success: #21aa05 !important;
 $danger: #f4024f !important;
 
+// Masonry Grid
+.masonry-grid {
+  column-count: 3;
+  column-gap: 20px 20px;
+  width: 1200px;
+}
+
 // Logo
 .custom-logo {
   position: absolute;
