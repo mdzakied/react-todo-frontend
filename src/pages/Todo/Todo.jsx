@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import TodoService from "@services/TodoService";
 
 import { Checkbox } from "primereact/checkbox";
+import { Card } from "primereact/card";
 
 export default function Todo() {
   // use service and utils with useMemo -> prevent re-render
@@ -22,14 +23,14 @@ export default function Todo() {
 
   return (
     <>
-      <section id="bankPage">
+      <section id="todoPage">
         {/* Header */}
         <div className="flex flex-row justify-content-between align-items-center">
           {/*  Title and Subtitle */}
           <div>
             {/* Title */}
             <div>
-              <span className="text-2xl font-medium">Bank</span>
+              <span className="text-2xl font-medium">Todo</span>
             </div>
             {/* Subtitle */}
             <div>
@@ -55,53 +56,66 @@ export default function Todo() {
           </div>
         </div>
 
-        {/* Content */}
-        <div className="flex flex-row mt-6">
-          {/* <TodoList /> */}
-          <div>
+        {/* Todo List */}
+        <div className="mt-6">
+          {/* Data */}
+          <div className="justify-content-center grid">
             {isLoading ? (
               <p>Loading...</p>
             ) : (
               data.data.map((todo) => (
-                <div key={todo.id}>
-                  <p>{todo.name}</p>
-                  <ul className="list-group">
-                    {todo.items?.map((item) => (
-                      <li key={item.id} className="list-group-item">
-                        {item.name}
-                        {/* Status */}
+                <div key={todo.id} className="h-auto">
+                  {/* Card */}
+                  <Card title={todo.name} className="w-20rem h-auto m-4">
+                    <ul className="px-3 my-2">
+                      {todo.items?.map((item) => (
+                        <li key={item.id} className="card border-round shadow-3 mb-4 p-3">
+                          <div className="flex flex-row gap-2">
+                            {/* Status */}
+                            <div className="card flex align-items-center justify-content-center">
+                              <Checkbox
+                                checked={item.itemCompletionStatus}
+                              ></Checkbox>
+                            </div>
 
-                        <div className="card flex justify-content-center">
-                          <Checkbox
-                            checked={item.itemCompletionStatus}
-                          ></Checkbox>
-                        </div>
-                        {/* Action Edit */}
-                        <button
-                          className="btn btn-primary"
-                          onClick={() => todoService.editTodoItem(item.id)}
-                        >
-                          Edit
-                        </button>
+                            {/* Name */}
+                            <div>
+                              <p>{item.name}</p>
+                            </div>
 
-                        {/* Action Delete */}
-                        <button
-                          className="btn btn-danger"
-                          onClick={() => todoService.deleteTodoItem(item.id)}
-                        >
-                          Delete
-                        </button>
+                            {/* Action Button */}
+                            <div className="ml-auto flex align-items-center gap-2">
+                              {/* Action Edit */}
+                              <Button
+                                icon="pi pi-pencil"
+                                severity="secondary"
+                                size="small"
+                                className="w-2rem h-2rem"
+                              ></Button>
 
-                        {/* Complete */}
-                        <button
-                          className="btn btn-success"
-                          onClick={() => todoService.completeTodoItem(item.id)}
-                        >
-                          Complete
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
+                              {/* Action Delete */}
+                              <Button
+                                icon="pi pi-trash"
+                                severity="danger"
+                                size="small"
+                                className="w-2rem h-2rem"
+                              ></Button>
+                            </div>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <div className="flex">
+                      <Button
+                        label={"Add"}
+                        className="bgn-success mt-2 shadow-3 ml-auto"
+                        severity="success"
+                        size="small"
+                        icon="pi pi-plus-circle"
+                      />
+                    </div>
+                  </Card>
                 </div>
               ))
             )}
