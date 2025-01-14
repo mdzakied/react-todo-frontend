@@ -1,5 +1,5 @@
-import { useMemo } from "react";
-import { Link } from "react-router-dom";
+import { useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -10,8 +10,34 @@ import { Button } from "primereact/button";
 import { Checkbox } from "primereact/checkbox";
 import { Card } from "primereact/card";
 import { confirmDialog } from "primereact/confirmdialog";
+import { Dialog } from "primereact/dialog";
+import { InputText } from "primereact/inputtext";
+
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+// create schema for validator with zod
+const schema = z.object({
+  name: z.string().min(4, { message: "Name must be at least 4 characters" }),
+});
 
 export default function Todo() {
+  // use state for data
+  const [visible, setVisible] = useState(false);
+  const [form, setForm] = useState("");
+  const [currentTodo] = useState({});
+
+  // use form hook with schema from zod resolver
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+    reset,
+  } = useForm({
+    mode: "onChange",
+    resolver: zodResolver(schema),
+  });
+
   // use service and utils with useMemo -> prevent re-render
   const todoService = useMemo(() => TodoService(), []);
   const notification = useMemo(() => Notification(), []);
@@ -27,7 +53,32 @@ export default function Todo() {
     },
   });
 
-  // delete todo -> react query
+  // service todo (add todo, add todo item and edit todo item) -> useMutation react query
+  // register bank
+  const { mutate: serviceFormTodo, isPending } = useMutation({
+    mutationFn: async (payload) => {
+      // check form
+      if (form === "Add Todo") {
+        // add todo
+        return await todoService.addTodo(payload);
+      }
+    },
+
+    onSuccess: () => {
+      // notification
+      if (form === "Add Todo") {
+        notification.showSuccess("Todo saved");
+      }
+
+      // close dialog
+      setVisible(false);
+
+      // update cache bank
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
+  });
+
+  // delete todo -> useMutation react query
   const { mutate: removeTodoById } = useMutation({
     mutationFn: async (id) => {
       return await todoService.removeTodoById(id);
@@ -41,7 +92,7 @@ export default function Todo() {
     },
   });
 
-  // update todo item status -> react query
+  // update todo item status -> useMutation react query
   const { mutate: updateStatusTodoItemById } = useMutation({
     mutationFn: async (payload) => {
       return await todoService.updateStatusTodoItemById(payload);
@@ -55,7 +106,7 @@ export default function Todo() {
     },
   });
 
-  // delete todo item -> react query
+  // delete todo item -> useMutation react query
   const { mutate: removeTodoItemById } = useMutation({
     mutationFn: async (id) => {
       return await todoService.removeTodoItemById(id);
@@ -76,7 +127,7 @@ export default function Todo() {
 
   const confirmDelete = (payload) => {
     console.log(payload);
-    
+
     confirmDialog({
       message: "Are you sure you want to delete ?",
       header: "Confirmation",
@@ -101,6 +152,15 @@ export default function Todo() {
     });
   };
 
+  // submit form
+  const onSubmitForm = (data) => {
+    // serviceFormTodo -> useMutation react query
+    serviceFormTodo(data);
+
+    // reset form
+    reset();
+  };
+
   return (
     <>
       <section id="todoPage">
@@ -123,15 +183,17 @@ export default function Todo() {
           {/* Add Button */}
           <div>
             <div className="pl-4">
-              <Link to="/dashboard/bank/add">
-                <Button
-                  label={"Add"}
-                  className="bgn-success shadow-3"
-                  severity="success"
-                  size="small"
-                  icon="pi pi-plus-circle"
-                />
-              </Link>
+              <Button
+                label={"Add"}
+                className="bgn-success shadow-3"
+                severity="success"
+                size="small"
+                icon="pi pi-plus-circle"
+                onClick={() => {
+                  setForm("Add Todo");
+                  setVisible(true);
+                }}
+              />
             </div>
           </div>
         </div>
@@ -146,7 +208,10 @@ export default function Todo() {
               data.data.map((todo) => (
                 <div key={todo.id} className="h-auto">
                   {/* Card */}
-                  <Card title={todo.name} className="w-20rem inline-block h-auto m-4">
+                  <Card
+                    title={todo.name}
+                    className="w-20rem inline-block h-auto m-4"
+                  >
                     <ul className="px-3 my-2">
                       {todo.items?.map((item) => (
                         <li
@@ -180,6 +245,10 @@ export default function Todo() {
                                 severity="secondary"
                                 size="small"
                                 className="w-2rem h-2rem"
+                                onClick={() => {
+                                  setForm("Edit Todo Item");
+                                  setVisible(true);
+                                }}
                               ></Button>
 
                               {/* Action Delete */}
@@ -219,6 +288,10 @@ export default function Todo() {
                         severity="success"
                         size="small"
                         icon="pi pi-plus-circle"
+                        onClick={() => {
+                          setForm("Add Todo Item");
+                          setVisible(true);
+                        }}
                       />
                     </div>
                   </Card>
@@ -228,6 +301,58 @@ export default function Todo() {
           </div>
         </div>
       </section>
+
+      {/* Dialog form */}
+      <Dialog
+        id="dialogForm"
+        header={form}
+        visible={visible}
+        style={{ width: "50vw" }}
+        onHide={() => {
+          if (!visible) return;
+          setVisible(false);
+        }}
+      >
+        {/* Form */}
+        <form onSubmit={handleSubmit(onSubmitForm)}>
+          <div className="mt-5">
+            {/* Name */}
+            <div className="p-inputgroup flex-1">
+              <span className="p-inputgroup-addon">
+                <i className="pi pi-tags"></i>
+              </span>
+              <InputText
+                {...register("name")}
+                id="name"
+                placeholder={
+                  form === "Edit Todo Item" ? currentTodo.name : "Name"
+                }
+                variant="filled"
+                className="p-inputtext-sm w-full lg:w-10"
+                aria-describedby="name-help"
+              />
+            </div>
+
+            {/* Error name */}
+            {errors.name && (
+              <small id="name-help" className="text-xs p-error">
+                {errors.name.message}
+              </small>
+            )}
+
+            {/* Submit Button */}
+            <div>
+              <Button
+                label={isPending ? "Loading..." : "Submit"}
+                className="bgn-success w-full mt-4 py-2"
+                severity="success"
+                size="small"
+                disabled={!isValid || isPending}
+              />
+            </div>
+          </div>
+        </form>
+      </Dialog>
     </>
   );
 }
