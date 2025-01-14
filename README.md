@@ -2,6 +2,11 @@
 
 <p align="center" id="description">Web app for managing data of todo (Technical Test BTS.id)</p>
 
+### 🚀 Progress :
+
+- Feature Auth (Login and Register) - complete ✔️
+- Feature TODO (CRUD) - not complete ❌
+
 ## 📋 Doc Backend
 https://drive.google.com/file/d/1PpZyrHYjhg3a6nRpu7M68Ck-xdLc8SMJ/view?ts=6785df1b
 
@@ -24,12 +29,6 @@ Register Page 📝:
 - Allows new users to create accounts with validation for required fields (e.g., valid email, valid username and strong password).
 - Provides real-time feedback for input errors.
 - Displays error messages if bad request.
-
-Dashboard Page 📊:
-- On Progress
-
-Todo Page 🗊 :
-- On Progress
 
 Error Handling ⚠️:
 - 404 Not Found Page ❓: Displays a user-friendly error message for invalid routes.
