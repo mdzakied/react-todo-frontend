@@ -63,7 +63,7 @@ export default function Navbar() {
       >
         {/* Logo */}
         <div className="flex justify-content-start align-items-center">
-          <img src={Logo} alt="Logo" className="w-6rem md:w-8rem h-5rem" />
+          <img src={Logo} alt="Logo" className="w-6rem md:w-8rem custom-logo-navbar" />
         </div>
 
         

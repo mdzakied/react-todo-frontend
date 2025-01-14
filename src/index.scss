@@ -10,6 +10,16 @@ $danger: #f4024f !important;
   top: 10px;
   left: 0px;
 }
+.custom-logo-navbar {
+  position: absolute;
+  top: -25px;
+  left: 0px;
+  // responsive layput 
+  @media screen and (max-width: 768px) {
+    top: -8px;
+  }
+}
+
 
 // Button Confirm Dialog
 .p-confirm-dialog-reject {
