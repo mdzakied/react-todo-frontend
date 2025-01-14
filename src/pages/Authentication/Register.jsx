@@ -13,8 +13,8 @@ import { useMutation } from "@tanstack/react-query";
 import AuthService from "@services/AuthService";
 import Notification from "@shared/components/Notification/Notification";
 
-import Logo from "@/assets/images/rongsox-logo.png";
-import HeroLogin from "@/assets/images/recycle.png";
+import Logo from "@/assets/images/todo-logo.png";
+import HeroRegister from "@/assets/images/register.png";
 
 import toast from "react-hot-toast";
 
@@ -106,7 +106,7 @@ export default function Register() {
             <div className="col-12 md:col-6 md:px-6 lg:px-8">
               {/* Logo */}
               <div className="mb-4">
-                <img src={Logo} alt="logo" className="w-8rem" />
+                <img src={Logo} alt="logo" className="w-8rem custom-logo" />
               </div>
 
               {/* Title */}
@@ -225,7 +225,7 @@ export default function Register() {
 
             {/* Image Ilustration */}
             <div className="col-12 md:col-6 hidden md:flex align-items-center">
-              <img src={HeroLogin} alt="HeroLogin" className="w-10" />
+              <img src={HeroRegister} alt="HeroRegister" className="w-10" />
             </div>
           </div>
         </div>

@@ -4,6 +4,13 @@ $light: #a1c7c5 !important;
 $success: #21aa05 !important;
 $danger: #f4024f !important;
 
+// Logo
+.custom-logo {
+  position: absolute;
+  top: 10px;
+  left: 0px;
+}
+
 // Button Confirm Dialog
 .p-confirm-dialog-reject {
   padding: 8px 20px;
